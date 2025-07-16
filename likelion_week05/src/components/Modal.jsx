@@ -36,7 +36,7 @@ const Modal = ( {isOpen, setIsOpen, onConfirm}) => {
                         className="w-[190px] h-[40px] text-center rounded-md text-[13px] text-[#7E22CE] hover:bg-[#7E22CE] hover:text-white"
                         onClick={() => {
                           onConfirm();
-                          nav("/shoppingCart");
+                          
                         }}
                       >
                         장바구니 보기

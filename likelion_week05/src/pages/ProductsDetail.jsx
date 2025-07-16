@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import container from "../assets/container";
 import Modal from "../components/Modal";
+import { addToCart } from "../apis/cart";
 import { useQuery } from "@tanstack/react-query";
 import { getProductsById } from "../apis/products";
 
@@ -43,15 +44,19 @@ const ProductsDetail = () => {
 
   //const numberPrice = Number(String(productItem.price).replace(/[^0-9.]/g, ""));
 
-  const handleInfo = () => {
-    nav("/shoppingCart", {
-      state: {
-        name: productItem.name,
-        category: productItem.category,
-        price: productItem.price,
-        quantity: count,
-      },
-    });
+
+  const handleInfo = async () => {
+    const userId = localStorage.getItem("userId");
+    const productId = productItem.id;
+    const quantity = count;
+    console.log(userId, productId, quantity);
+
+    try {
+      await addToCart(userId, productId, quantity);
+      nav("/shoppingCart");
+    } catch (error) {
+      console.error("장바구니 추가 실패:", error);
+    }
   };
 
   const handleModal = () => {

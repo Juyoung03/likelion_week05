@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import Modal from "../components/Modal";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +9,7 @@ const ProductsDetail = () => {
   const { id } = useParams();
   const [count, setCount] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+  const nav = useNavigate();
 
   const {
     data: productItem,
@@ -113,7 +114,7 @@ const ProductsDetail = () => {
             장바구니
           </button>
 
-          <Modal isOpen={isOpen} setIsOpen={setIsOpen} onConfirm={handleInfo} />
+          <Modal isOpen={isOpen} setIsOpen={setIsOpen} onConfirm={() => nav("/shoppingCart")} />
         </div>
       </div>
     </div>

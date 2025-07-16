@@ -3,6 +3,7 @@ import { useState } from "react";
 import Modal from "../components/Modal";
 import { useQuery } from "@tanstack/react-query";
 import { getProductsById } from "../apis/products";
+import { addToCart } from "../apis/cart";
 
 const ProductsDetail = () => {
   const { id } = useParams();

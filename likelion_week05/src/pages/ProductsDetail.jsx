@@ -1,6 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import container from "../assets/container";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
 import Modal from "../components/Modal";
 import { addToCart } from "../apis/cart";
 import { useQuery } from "@tanstack/react-query";
@@ -8,7 +7,6 @@ import { getProductsById } from "../apis/products";
 
 const ProductsDetail = () => {
   const { id } = useParams();
-  const nav = useNavigate();
 
   //const [productItem, setProductItem] = useState();
   const [count, setCount] = useState(1);
@@ -26,23 +24,7 @@ const ProductsDetail = () => {
   if (isLoading) return <div>로딩 중...</div>;
   if (error || !productItem) return <div>ERROR</div>;
 
-  // useEffect(() => {
-  //   const findItem = products.find(
-  //     (container) => String(container.id) === String(id)
-  //   );
-  //   console.log(findItem);
-
-  //   if (!findItem) {
-  //     window.alert("존재하지 않는 상품입니다!");
-  //     nav("/", { replace: true });
-  //   }
-
-  //   setProductItem(findItem);
-  // }, [id, nav]);
-
   if (!productItem) return <div>로딩중 ...</div>;
-
-  //const numberPrice = Number(String(productItem.price).replace(/[^0-9.]/g, ""));
 
 
   const handleInfo = async () => {
@@ -53,14 +35,19 @@ const ProductsDetail = () => {
 
     try {
       await addToCart(userId, productId, quantity);
-      nav("/shoppingCart");
+      
     } catch (error) {
       console.error("장바구니 추가 실패:", error);
     }
   };
 
-  const handleModal = () => {
-    setIsOpen(true);
+  const handleModal = async () => {
+    try {
+      await handleInfo();
+      setIsOpen(true);
+    } catch (error) {
+      console.log("장바구니 추가 실패 : ", error);
+    }
   };
 
   return (

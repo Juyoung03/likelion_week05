@@ -34,7 +34,10 @@ const Modal = ( {isOpen, setIsOpen, onConfirm}) => {
                       </button>
                       <button 
                         className="w-[190px] h-[40px] text-center rounded-md text-[13px] text-[#7E22CE] hover:bg-[#7E22CE] hover:text-white"
-                        onClick={onConfirm}
+                        onClick={() => {
+                          onConfirm();
+                          nav("/shoppingCart");
+                        }}
                       >
                         장바구니 보기
                       </button>

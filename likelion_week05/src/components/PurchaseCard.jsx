@@ -1,24 +1,22 @@
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-
-//import { fetchAllProducts } from "../apis/products";
+import { addToCart } from "../apis/cart";
 
 const PurchaseCard = ({ products }) => {
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
 
-  const handleClickCart = () => {
-    alert("장바구니에 추가되었습니다!");
+  const handleClickCart = async (e, userId, itemId, quantity) => {
+    e.stopPropagation();
+
+    try {
+      await addToCart(userId, itemId, quantity);
+      alert("장바구니에 추가되었습니다!");
+    } catch (error) {
+      console.error("fail to add to cart", error);
+      alert("실패했습니다. 다시 시도해주세요.");
+    }
   };
-
-  // const {
-  //   data: products,
-  //   isLoading,
-  //   error,
-  // } = useQuery({ queryKey: ["products"], queryFn: fetchAllProducts });
-
-  // if (isLoading) return <div>로딩중...</div>;
-  // if (error) return <div>ERRROR</div>;
 
   return (
     <div className="grid dt:grid-cols-4 ph:grid-cols-2 ph:gap-[24px] dt:gap-[16px] py-[16px] ">
@@ -44,7 +42,7 @@ const PurchaseCard = ({ products }) => {
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleClickCart();
+                    handleClickCart(e, userId, item.id, 1);
                   }}
                   text="Add to Cart"
                   className={`dt:px-[12px] dt:py ph:px-[18px] ph:py-[4px] whitespace-normal`}

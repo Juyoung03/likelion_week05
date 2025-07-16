@@ -1,3 +1,5 @@
+import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
@@ -6,7 +8,6 @@ import { getProductsById } from "../apis/products";
 
 const ProductsDetail = () => {
   const { id } = useParams();
-  const nav = useNavigate();
 
   //const [productItem, setProductItem] = useState();
   const [count, setCount] = useState(1);
@@ -25,6 +26,7 @@ const ProductsDetail = () => {
   if (error || !productItem) return <div>ERROR</div>;
 
   if (!productItem) return <div>로딩중 ...</div>;
+
 
   const handleInfo = async () => {
     const userId = localStorage.getItem("userId");

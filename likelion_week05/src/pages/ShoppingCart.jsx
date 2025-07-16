@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import ShopCard from "../components/ShopCard";
 import { useState } from "react";
 
 const ShoppingCart = () => {
+    const nav = useNavigate();
     const [totalPrice, setTotalPrice] = useState(0);
 
     return (
@@ -53,7 +55,15 @@ const ShoppingCart = () => {
                     </div>
 
                     <div className="absolute bottom-[25px] left-1/2 transform -translate-x-1/2">
-                        <button className="ph:w-[200px] ph:h-[45px] bg-[#6B21A8] rounded-md text-white">결제하기</button>
+                        <button 
+                            className="ph:w-[200px] ph:h-[45px] bg-[#6B21A8] rounded-md text-white"
+                            onClick={() => {
+                                alert("결제되었습니다.");
+                                nav("/");
+                            }}    
+                        >
+                                결제하기
+                        </button>
                     </div>
                 </div>
             </div>

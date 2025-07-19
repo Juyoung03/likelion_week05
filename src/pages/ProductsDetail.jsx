@@ -1,18 +1,19 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import container from "../assets/container";
+import { useState } from "react";
+import LoginModal from "../components/LoginModal";
 import Modal from "../components/Modal";
 import { addToCart } from "../apis/cart";
 import { useQuery } from "@tanstack/react-query";
 import { getProductsById } from "../apis/products";
+import { useAuthStore } from "../stores/useAuthStore";
 
 const ProductsDetail = () => {
   const { id } = useParams();
+  const { isLoggedIn } = useAuthStore();
   const nav = useNavigate();
-
-  //const [productItem, setProductItem] = useState();
   const [count, setCount] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     data: productItem,
@@ -25,25 +26,7 @@ const ProductsDetail = () => {
 
   if (isLoading) return <div>로딩 중...</div>;
   if (error || !productItem) return <div>ERROR</div>;
-
-  // useEffect(() => {
-  //   const findItem = products.find(
-  //     (container) => String(container.id) === String(id)
-  //   );
-  //   console.log(findItem);
-
-  //   if (!findItem) {
-  //     window.alert("존재하지 않는 상품입니다!");
-  //     nav("/", { replace: true });
-  //   }
-
-  //   setProductItem(findItem);
-  // }, [id, nav]);
-
   if (!productItem) return <div>로딩중 ...</div>;
-
-  //const numberPrice = Number(String(productItem.price).replace(/[^0-9.]/g, ""));
-
 
   const handleInfo = async () => {
     const userId = localStorage.getItem("userId");
@@ -59,8 +42,12 @@ const ProductsDetail = () => {
     }
   };
 
-  const handleModal = () => {
-    setIsOpen(true);
+  const handleClickCart = () => {
+    if (isLoggedIn) {
+      setIsOpen(true);
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   return (
@@ -81,16 +68,13 @@ const ProductsDetail = () => {
             <p className="text-[#4B5563] font-[14px]">{productItem.category}</p>
             <img src="/heart.svg" alt="찜하기" className="w-[24px] h-[24px]" />
           </div>
-
           <div className="flex justify-between items-start text-[#1F2937] text-[25.5px] font-bold mb-[16px]">
             <p>{productItem.name}</p>
             <p>{productItem.price}</p>
           </div>
-
           <div className="text-[#4B5563] flex items-center mb-[42px]">
             <p>description</p>
           </div>
-
           <div className="flex justify-between h-[32px] mb-[16px]">
             <p className="text-[#374151] text-[13.6px]">구매수량</p>
             <div className="flex gap-[16px] items-center">
@@ -115,22 +99,32 @@ const ProductsDetail = () => {
               </button>
             </div>
           </div>
-
           <div className="flex justify-between mb-[32.3px]">
             <p className="text-[#374151] text-[13.6px]">총 상품 금액</p>
             <p className="text-[17px] font-bold">
               \{(count * productItem.price).toFixed(2)}
             </p>
           </div>
-
           <button
             className="w-[283px] h-[48px] mx-auto flex justify-center items-center content-center px-[114px] py-[12px] rounded-[6px] bg-[#6B21A8] text-[#FFFFFF] text-[13.6px]"
-            onClick={handleModal}
+            onClick={handleClickCart}
           >
             장바구니
           </button>
-
-          <Modal isOpen={isOpen} setIsOpen={setIsOpen} onConfirm={handleInfo} />
+          {isLoggedIn && (
+            <Modal
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              onConfirm={handleInfo}
+            />
+          )}
+          {isModalOpen && (
+            <LoginModal
+              onClose={() => {
+                setIsModalOpen(false);
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

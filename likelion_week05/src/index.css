@@ -1,8 +1,0 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
-@import "tailwindcss";
-
-@theme {
-  --breakpoint-ph: 360px;
-  --breakpoint-dt: 1440px;
-  --font-Inter: "Inter", sans-serif;
-}

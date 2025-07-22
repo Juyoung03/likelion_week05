@@ -1,9 +1,9 @@
-import { axiosInstance } from "./instance";
+import {axiosInstance} from './axios';
 
 export const login = async (code) => {
-  const res = await axiosInstance.get(`/oauth2/authorization/kakao`, {
-    code,
-  });
-  return res.data;
-  //window.location.href = "https://taewon.store/auth/kakao";
-};
+    const res = await axiosInstance.post('/auth/kakao', {
+        code,
+});
+
+    return res.data;
+}

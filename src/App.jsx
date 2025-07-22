@@ -6,6 +6,7 @@ import ProductsDetail from "./pages/ProductsDetail";
 import ProductsSearch from "./pages/ProductsSearch";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
+import KakaoRedirect from "./pages/KakaoRedirect";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/shoppingCart" element={<ShoppingCart />} />
           <Route path="/products/:id" element={<ProductsDetail />} />
           <Route path="/products" element={<ProductsSearch />} />
+          <Route path="/auth/callback" element={<KakaoRedirect />} />
         </Route>
       </Routes>
     </BrowserRouter>

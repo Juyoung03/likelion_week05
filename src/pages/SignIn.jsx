@@ -6,7 +6,6 @@ const SignIn = () => {
         <>
             <div className="flex justify-center mt-[24px]">
                 <SocialLogin />
-                <h1>test</h1>
             </div>
             
         </>

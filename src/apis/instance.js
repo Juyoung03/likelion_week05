@@ -17,8 +17,7 @@ instance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error),
-  console.log("🧪 [INTERCEPTOR] accessToken:", accessToken)
+  (error) => Promise.reject(error)
 );
 
 //응답 인터셉터
